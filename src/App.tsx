@@ -5,23 +5,25 @@ import { ChatMessage } from './components/ChatMessage';
 import { Textarea } from './components/ui/textarea';
 import { useState } from 'react';
 import { Switch } from './components/ui/switch';
+import { User, LogOut } from 'lucide-react';
 
 export default function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
   return (
     <div className={`h-screen flex p-2 md:p-6 gap-2 md:gap-4 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
       {/* Mobile Overlay */}
-      {isSidebarOpen && (
+      {sidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
+          onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      {isSidebarOpen && (
+      {sidebarOpen && (
         <div className={`fixed md:relative inset-y-0 left-0 z-50 w-80 md:rounded-3xl flex flex-col shadow-xl m-2 md:m-0 rounded-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
           {/* Header */}
           <div className={`p-4 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'}`}>
@@ -37,7 +39,7 @@ export default function App() {
                 variant="outline"
                 size="icon"
                 className={`h-9 w-9 rounded-full border-0 ${isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-black text-white hover:bg-gray-800'}`}
-                onClick={() => setIsSidebarOpen(false)}
+                onClick={() => setSidebarOpen(false)}
               >
                 <Menu className="h-4 w-4" />
               </Button>
@@ -73,38 +75,52 @@ export default function App() {
 
           {/* Footer */}
           <div className={`p-4 ${isDarkMode ? 'border-t border-gray-700' : 'border-t border-gray-200'}`}>
-            {/* Settings with Theme Toggle */}
-            <div className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-colors mb-3 ${isDarkMode ? 'bg-gray-700/50' : 'bg-gray-50'}`}>
-              <div className="flex items-center gap-3">
-                <div className={`h-9 w-9 rounded-full flex items-center justify-center ${isDarkMode ? 'bg-gray-600' : 'bg-gray-100'}`}>
-                  <Settings className={`h-4 w-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
-                </div>
-                <span className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Settings</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {isDarkMode ? (
-                  <Moon className="h-4 w-4 text-gray-400" />
-                ) : (
-                  <Sun className="h-4 w-4 text-gray-500" />
-                )}
-                <Switch
-                  checked={isDarkMode}
-                  onCheckedChange={setIsDarkMode}
+            {/* Profile Section */}
+            <div className="mt-auto pt-4 border-t border-gray-700">
+              <button 
+                onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors ${isDarkMode ? 'hover:bg-gray-700/50' : 'hover:bg-gray-100'}`}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+                  alt="Profile"
+                  className="h-9 w-9 rounded-full object-cover"
                 />
-              </div>
+                <div className="flex-1 text-left">
+                  <div className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>John Doe</div>
+                  <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>john@example.com</div>
+                </div>
+                <ChevronDown className={`h-4 w-4 transition-transform ${profileMenuOpen ? 'rotate-180' : ''} ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              </button>
+              
+              {/* Profile Dropdown Menu */}
+              {profileMenuOpen && (
+                <div className={`mt-2 mb-2 rounded-xl overflow-hidden animate-in slide-in-from-bottom-2 ${isDarkMode ? 'bg-gray-700/50' : 'bg-gray-50'}`}>
+                  <button className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors ${isDarkMode ? 'hover:bg-gray-600/50 text-gray-200' : 'hover:bg-gray-200 text-gray-700'}`}>
+                    <User className="h-4 w-4" />
+                    <span>Profile</span>
+                  </button>
+                  <button className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors ${isDarkMode ? 'hover:bg-gray-600/50 text-gray-200' : 'hover:bg-gray-200 text-gray-700'}`}>
+                    <Settings className="h-4 w-4" />
+                    <span>Settings</span>
+                  </button>
+                  <div className={`flex items-center justify-between px-4 py-3 text-sm ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <div className="flex items-center gap-3">
+                      {isDarkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+                      <span>Dark Mode</span>
+                    </div>
+                    <Switch
+                      checked={isDarkMode}
+                      onCheckedChange={setIsDarkMode}
+                    />
+                  </div>
+                  <button className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors ${isDarkMode ? 'hover:bg-gray-600/50 text-red-400' : 'hover:bg-gray-200 text-red-600'}`}>
+                    <LogOut className="h-4 w-4" />
+                    <span>Log Out</span>
+                  </button>
+                </div>
+              )}
             </div>
-            
-            <button className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isDarkMode ? 'bg-gray-700/50 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
-                alt="User"
-                className="h-10 w-10 rounded-full object-cover ring-2 ring-white shadow-sm"
-              />
-              <div className="flex-1 text-left">
-                <div className={`text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Andrew Nielsen</div>
-                <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>andrew@email.com</div>
-              </div>
-            </button>
           </div>
         </div>
       )}
@@ -112,13 +128,13 @@ export default function App() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col rounded-3xl overflow-hidden relative">
         {/* Menu button when sidebar is closed */}
-        {!isSidebarOpen && (
+        {!sidebarOpen && (
           <div className="absolute top-6 left-6 z-40">
             <Button
               variant="outline"
               size="icon"
               className="h-10 w-10 rounded-full bg-white text-gray-800 hover:bg-gray-100 border-0 shadow-lg"
-              onClick={() => setIsSidebarOpen(true)}
+              onClick={() => setSidebarOpen(true)}
             >
               <Menu className="h-5 w-5" />
             </Button>
