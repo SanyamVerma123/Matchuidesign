@@ -11,10 +11,18 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   return (
-    <div className={`h-screen flex p-6 gap-4 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+    <div className={`h-screen flex p-2 md:p-6 gap-2 md:gap-4 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       {isSidebarOpen && (
-        <div className={`w-80 rounded-3xl flex flex-col shadow-xl ${isDarkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <div className={`fixed md:relative inset-y-0 left-0 z-50 w-80 md:rounded-3xl flex flex-col shadow-xl m-2 md:m-0 rounded-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
           {/* Header */}
           <div className={`p-4 ${isDarkMode ? 'border-b border-gray-700' : 'border-b border-gray-200'}`}>
             <h1 className={`text-sm font-semibold tracking-wider mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
@@ -119,15 +127,24 @@ export default function App() {
 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto pb-32">
+          {/* App Name Banner */}
+          <div className="pt-6 md:pt-8 pb-4 text-center">
+            <h2 className={`text-xl md:text-2xl font-bold tracking-wide ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+              CHAT A.I+
+            </h2>
+          </div>
+          
           <ChatMessage
             role="user"
             content="Create a chatbot gpt using python language what will be step for that"
             avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+            isDarkMode={isDarkMode}
           />
           
           <ChatMessage
             role="assistant"
             label="CHAT A.I + O"
+            isDarkMode={isDarkMode}
             content={
               <div className="space-y-4">
                 <p>
@@ -158,15 +175,17 @@ export default function App() {
             role="user"
             content="What is use of that chatbot ?"
             avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+            isDarkMode={isDarkMode}
           />
           
           <ChatMessage
             role="assistant"
             label="CHAT A.I + O"
+            isDarkMode={isDarkMode}
             content={
               <div className="space-y-3">
                 <p>Chatbots can be used for a wide range of purposes, including:</p>
-                <p className="text-gray-600">
+                <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
                   Customer service chatbots can handle frequently asked questions, provide basic support, and help customers
                 </p>
               </div>
@@ -175,10 +194,10 @@ export default function App() {
         </div>
 
         {/* Input Area - Fixed at Bottom */}
-        <div className={`absolute bottom-0 left-0 right-0 p-6 pointer-events-none ${isDarkMode ? 'bg-gradient-to-t from-gray-900 via-gray-900 to-transparent' : 'bg-gradient-to-t from-white via-white to-transparent'}`}>
-          <div className="max-w-4xl mx-auto pointer-events-auto">
-            <div className={`flex items-center gap-3 rounded-full px-5 py-3 shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
-              <Brain className="h-5 w-5 text-indigo-600" />
+        <div className={`absolute bottom-0 left-0 right-0 p-3 md:p-6 pointer-events-none ${isDarkMode ? 'bg-gradient-to-t from-gray-900 via-gray-900 to-transparent' : 'bg-gradient-to-t from-white via-white to-transparent'}`}>
+          <div className="max-w-4xl mx-auto pointer-events-auto px-2 md:px-0">
+            <div className={`flex items-center gap-2 md:gap-3 rounded-full px-3 md:px-5 py-2.5 md:py-3 shadow-lg ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
+              <Brain className="h-4 w-4 md:h-5 md:w-5 text-indigo-600 flex-shrink-0" />
               <input
                 type="text"
                 placeholder="What is your need..."
@@ -186,9 +205,9 @@ export default function App() {
               />
               <Button
                 size="icon"
-                className="h-10 w-10 rounded-full bg-indigo-600 hover:bg-indigo-700"
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-indigo-600 hover:bg-indigo-700 flex-shrink-0"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-3.5 w-3.5 md:h-4 md:w-4" />
               </Button>
             </div>
           </div>
