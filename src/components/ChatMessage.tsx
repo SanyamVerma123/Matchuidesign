@@ -68,19 +68,19 @@ export function ChatMessage({
   };
 
   return (
-    <div className={`py-4 md:py-6 px-4 md:px-8 group animate-in fade-in slide-in-from-bottom-3 duration-500 ${
+    <div className={`py-4 md:py-6 px-4 md:px-8 group animate-in fade-in slide-in-from-bottom-3 duration-500 ${ 
       role === 'assistant' ? 'bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent' : ''
     }`}>
       <div className="w-full">
-        {/* Avatar + Name Bubble (Chat Input Style) */}
+        {/* Avatar + Name Bubble (Chat Input Style) - Smaller and More Subtle */}
         <div className="mb-3">
           <div 
-            className={`inline-flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-sm shadow-lg transition-all duration-300 hover:scale-[1.02] ${
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-md transition-all duration-300 opacity-70 hover:opacity-100 ${ 
               role === 'user'
-                ? `bg-gradient-to-r ${userBubbleColor}`
+                ? `bg-gradient-to-r ${userBubbleColor}/80`
                 : isDarkMode
-                ? 'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500'
-                : 'bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400'
+                ? 'bg-gradient-to-r from-emerald-500/70 via-teal-500/70 to-cyan-500/70'
+                : 'bg-gradient-to-r from-emerald-400/70 via-teal-400/70 to-cyan-400/70'
             }`}
           >
             {/* Avatar */}
@@ -90,29 +90,29 @@ export function ChatMessage({
                   <img
                     src={avatar}
                     alt="User"
-                    className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover ring-2 ring-white/40 shadow-md"
+                    className="w-5 h-5 rounded-full object-cover ring-1 ring-white/30 shadow-sm"
                   />
                 ) : (
-                  <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/20 flex items-center justify-center text-white text-sm font-bold shadow-md ring-2 ring-white/40">
+                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-semibold shadow-sm ring-1 ring-white/30">
                     U
                   </div>
                 )
               ) : (
                 <div className="relative">
-                  <div className={`w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/20 flex items-center justify-center text-white text-sm font-bold shadow-md ring-2 ring-white/40 ${
+                  <div className={`w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-semibold shadow-sm ring-1 ring-white/30 ${ 
                     isAnimating ? 'animate-pulse' : ''
                   }`}>
                     AI
                   </div>
                   {isAnimating && (
-                    <div className="absolute inset-0 rounded-full bg-white/30 animate-ping"></div>
+                    <div className="absolute inset-0 rounded-full bg-white/20 animate-ping"></div>
                   )}
                 </div>
               )}
             </div>
 
             {/* Name */}
-            <span className="text-white font-bold text-sm md:text-base drop-shadow-md">
+            <span className="text-white font-medium text-xs drop-shadow-sm">
               {role === 'user' ? 'You' : 'CHAT A.I+'}
             </span>
           </div>
